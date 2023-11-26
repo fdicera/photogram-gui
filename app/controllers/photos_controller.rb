@@ -28,4 +28,42 @@ class PhotosController < ApplicationController
     #render({ :template => "photo_templates/bye"})
     redirect_to("/photos")
   end
+
+  def create
+    #Parameters: {"query_image"=>"a", "query_caption"=>"b", "query_owner_id"=>"c"}
+  input_image = params.fetch("query_image")
+  input_caption = params.fetch("query_caption")
+  input_owner_id = params.fetch("query_owner_id")
+
+  a_new_photo = Photo.new
+  a_new_photo.image = input_image
+  a_new_photo.caption = input_caption
+  a_new_photo.owner_id = input_owner_id
+
+  a_new_photo.save
+
+   # render({ :template => "photo_templates/create"})
+   next_url = "/photos/" + a_new_photo.id.to_s
+   redirect_to(next_url)
+  end
+
+  def update
+    #Parameters: "query_image"=>"https://robohash.org/suntprovidentassumenda.png?size=300x300&set=set1", "query_caption"=>"      All dwarfs are bastards in their father's eyes"}
+    the_id = params.fetch("modify_id")
+
+    matching_photos = Photo.where({ :id => the_id})
+
+   the_photo = matching_photos.at(0)
+
+   input_image = params.fetch("query_image")
+   input_caption = params.fetch("query_caption")
+
+   the_photo.image = inpute_image
+   the_photo.caption = input_caption
+   the_photo.save
+
+    #render({ :template => "photo_templates/update"})
+    next_url = "/photos/" + the_photo.id.to_s
+    redirect_to(next_url)
+  end
 end
