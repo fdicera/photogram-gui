@@ -14,4 +14,13 @@ class UsersController < ApplicationController
 
     render({ :template => "user_templates/show"})
   end
+
+  def create
+    a_new_user = User.new
+    a_new_user.username = params.fetch("input_username")
+    a_new_user.save
+    next_url = "/users/" + a_new_user.username
+    redirect_to(next_url)
+  end
+  
 end

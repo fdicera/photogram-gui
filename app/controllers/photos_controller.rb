@@ -58,12 +58,31 @@ class PhotosController < ApplicationController
    input_image = params.fetch("query_image")
    input_caption = params.fetch("query_caption")
 
-   the_photo.image = inpute_image
+   the_photo.image = input_image
    the_photo.caption = input_caption
    the_photo.save
 
     #render({ :template => "photo_templates/update"})
     next_url = "/photos/" + the_photo.id.to_s
     redirect_to(next_url)
+  end
+
+  def create_comment
+    #	 {"input_photo_id"=>"777", "input_author_id"=>"test", "input_comment"=>"test", "controller"=>"photos", "action"=>"create_comment"}
+    
+
+    input_photo_id = params.fetch("input_photo_id")
+    input_author_id = params.fetch("input_author_id")
+    input_comment = params.fetch("input_comment")
+   
+    a_new_comment = Comment.new
+    a_new_comment.author_id = input_author_id
+    a_new_comment.body = input_comment
+    a_new_comment.photo_id = input_photo_id
+    a_new_comment.save
+
+    next_url = "/photos/" + input_photo_id.to_s
+    redirect_to(next_url)
+
   end
 end
